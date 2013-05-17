@@ -1,0 +1,402 @@
+\newcommand{\tinytt}{\tt \scriptsize}
+% $Id: template.tex 11 2007-04-03 22:25:53Z jpeltier $
+
+\documentclass{vgtc}                          % final (conference style)
+%\documentclass[review]{vgtc}                 % review
+%\documentclass[widereview]{vgtc}             % wide-spaced review
+%\documentclass[preprint]{vgtc}               % preprint
+%\documentclass[electronic]{vgtc}             % electronic version
+
+%% Uncomment one of the lines above depending on where your paper is
+%% in the conference process. ``review'' and ``widereview'' are for review
+%% submission, ``preprint'' is for pre-publication, and the final version
+%% doesn't use a specific qualifier. Further, ``electronic'' includes
+%% hyperreferences for more convenient online viewing.
+
+%% Please use one of the ``review'' options in combination with the
+%% assigned online id (see below) ONLY if your paper uses a double blind
+%% review process. Some conferences, like IEEE Vis and InfoVis, have NOT
+%% in the past.
+
+%% Figures should be in CMYK or Grey scale format, otherwise, colour 
+%% shifting may occur during the printing process.
+
+%% These three lines bring in essential packages: ``mathptmx'' for Type 1 
+%% typefaces, ``graphicx'' for inclusion of EPS figures. and ``times''
+%% for proper handling of the times font family.
+
+\usepackage{subfig}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{mathptmx}
+
+\usepackage{graphicx}
+\usepackage{times}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+%% We encourage the use of mathptmx for consistent usage of times font
+%% throughout the proceedings. However, if you encounter conflicts
+%% with other math-related packages, you may want to disable it.
+
+%% If you are submitting a paper to a conference for review with a double
+%% blind reviewing process, please replace the value ``0'' below with your
+%% OnlineID. Otherwise, you may safely leave it at ``0''.
+\onlineid{0}
+
+%% declare the category of your paper, only shown in review mode
+\vgtccategory{Research}
+
+%% allow for this line if you want the electronic option to work properly
+\vgtcinsertpkg
+
+%% In preprint mode you may define your own headline.
+%\preprinttext{To appear in an IEEE VGTC sponsored conference.}
+
+%% Paper title.
+
+\title{Wired Al Yankovic: Automatic Music Lyrics Generation}
+
+%% This is how authors are specified in the conference style
+
+%% Author and Affiliation (single author).
+%%\author{Roy G. Biv\thanks{e-mail: roy.g.biv@aol.com}}
+%%\affiliation{\scriptsize Allied Widgets Research}
+
+%% Author and Affiliation (multiple authors with single affiliations).
+%%\author{Roy G. Biv\thanks{e-mail: roy.g.biv@aol.com} %
+%%\and Ed Grimley\thanks{e-mail:ed.grimley@aol.com} %
+%%\and Martha Stewart\thanks{e-mail:martha.stewart@marthastewart.com}}
+%%\affiliation{\scriptsize Martha Stewart Enterprises \\ Microsoft Research}
+
+%% Author and Affiliation (multiple authors with multiple affiliations)
+\author{Leilani Battle\thanks{e-mail: leibatt@mit.edu}\\ %
+        \scriptsize MIT %
+\and Tom Lieber\thanks{e-mail: tom@alltom.com}\\ %
+     \scriptsize MIT}
+
+%% A teaser figure can be included as follows, but is not recommended since
+%% the space is now taken up by a full width abstract.
+%\teaser{
+%  \includegraphics[width=1.5in]{sample.eps}
+%  \caption{Lookit! Lookit!}
+%}
+
+%% Abstract section.
+\abstract{
+abstract
+} % end of abstract
+
+%% ACM Computing Classification System (CCS). 
+%% See <http://www.acm.org/class/1998/> for details.
+%% The ``\CCScat'' command takes four arguments.
+
+%\CCScatlist{ 
+%  \CCScat{H.2.4}{Database Management}%
+%{Systems}{Query Processing};
+%  \CCScat{H.2.8}{Database Management}{Database applications}{Data mining}
+%}
+
+%% Copyright space is enabled by default as required by guidelines.
+%% It is disabled by the 'review' option or via the following command:
+% \nocopyrightspace
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% START OF THE PAPER %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%% The ``\maketitle'' command must be the first command after the
+%% ``\begin{document}'' command. It prepares and prints the title block.
+
+%% the only exception to this rule is the \firstsection command
+\firstsection{Introduction}
+
+\maketitle
+
+%% \section{Introduction} 
+\label{sec:intro}
+This report details our experiences designing and building a parody music lyrics generator.
+
+Weird Al Yankovic is a popular musician and comedian who is known for making
+hilarious parodies of American pop culture. His parodies are in part the inspiration for our ASR
+project. The core technical focus of our project is poetry generation.
+
+The Wired Al Yankovic lyrics generator starts with input text from the user. This
+can range from a few lines to full songs worth of text. The text is parsed and passed
+through a series of FST's that go from words to phonemes to syllables, and then
+in reverse to generate new words for the lyrics. If words in the input text
+are not in our dictionary, the user can replace these words with direct
+syllable translations in the text.
+
+The rest of this report is structured as follows. We discuss related lyrics generation
+and poetry generation projects, and briefly describe their methods. We present
+our music lyrics corpus, and the methods we used in building our lyrics generator.
+We present the results of our generator by providing parody lyrics for
+several well-known songs using our music lyrics corpus
+and the Brown Corpus~\ref{browncorpus}. We explain how we modified our lyrics generator
+to incorporate keyword search over the corpus using LSA and compare with our original
+results. Lastly, we discuss the successes
+and challenges associated with building a lyrics generator and potential
+future work.
+
+
+%In this paper, we make the following contributions:
+%\begin{itemize}
+%  \item We present an efficient, modularized approach to query result reduction using query plans
+%for limit estimation and leveraging native database operations to reduce query results directly
+%in the database.
+%  \item We prsent a clean, modularized architechure for a scalable information visualization system
+%that is completely agnostic to the underlying data management back-end
+%  \item We explain how to extend our resolution reduction techniques to work for relational databases in
+%general, and discuss the challenges associated with using relational databases in ScalaR.
+%  \item We present performance results for using ScalaR to visualize NASA MODIS
+%satellite imagery data.
+%\end{itemize}
+
+\subsection{Related Work}
+
+From what we have seen, online lyrics generators are limited both in their availability and use.
+Most generators we investigated seemed to use some amount of statistical analysis on existing
+music lyrics for song generation. However, many require the user to provide words or phrases
+to supplement the song~\cite{generator1,generator2}.
+We did find an online service called WriterBot~\cite{writerbot} that performs statistical analysis on existing
+song lyrics and uses Markov Chain Monte Carlo techniques to generate lyrics. WriterBot
+produces all of the words for its lyrics, and requires no user input beyond choosing
+a music genre and emotion.
+
+In contrast, extensive work has been done in generating poetry in general.
+For example, Infinite Monkeys~\cite{infinitemonkeys} is an open source
+poem generation system that takes the grammar of an existing poem, parses it for
+parts of speech and uses a random word generator to create a new poem.
+Gnoetry~\cite{gnoetry} is an on-going project with a focus on human-computer collaboration
+for poetry generation. Similar to our approach, Gnoetry builds a constrained n-gram
+language model on text supplied by the user to generate poetry. The user also
+has the ability to regenerate portions of the resulting poem. Gnoetry has also
+been used with music lyrics. \cite{ipoetry} Discusses older research on interactive
+poetry generation.
+
+Though our initial inspiration is not novel, our work on supplementing our n-gram
+models using Latent Semantic Analysis appears to be a new addition
+in the world of poetry generation. Note that our search for relevant work in this
+area was limited.
+
+\section{Methods}
+\label{sec:methods}
+
+\begin{figure}%[htbp]
+\centering
+%\epsfig{file=images_fixed/eps/architecture.eps,width=0.3\textwidth}
+\includegraphics[width=0.3\textwidth]{images/ps/pipeline.ps}
+\caption{Lyrics Generation Pipeline}
+\label{fig:pipeline}
+\end{figure}
+
+Our lyrics generation pipeline is as follows. First the user provides
+a set of music lyrics in text form as input to our system. The
+lyrics are parsed line by line into their representative phonemes,
+and then reduced to their basic syllable pattern.
+Each syllable pattern is transformed back into all of its possible
+phoneme sequences, which are then translated into all possible 
+word combinations with the phonemes. These words sequences are weighted with
+an n-gram model and ranked to return the most likely
+candidate lyrics. The resulting lyrics should have very
+similar, if not the same syllable structure as the original
+input lyrics.
+
+Our entire pipeline is achieved using only a series of
+generated or composed FST's. Figure~\ref{fig:pipeline}
+shows the organization of our pipeline.
+The rest of this section is devoted to describing
+in detail each aspect of our lyrics generation pipeline.
+
+\subsection{Music Lyrics Data Set and N-Gram Language Model}
+The Guardian published a series of articles presenting 1000 songs "everyone must hear"~\cite{guardian}.
+Each article in the series focused on a theme of music, such as love songs or political songs.
+They also provided a spreadsheet listing all 1000 of the songs they mentioned in their articles
+on their data blog\cite{guardian2}. This
+data contained the theme assigned to the song in the articles,
+song title, artist name, year the song was released, and a Spotify~\cite{spotify} url.
+
+We used this data to gather song lyrics from the ChartLyrics database~\cite{chartlyrics},
+which resulted in a music lyrics corpus containing just over 800 songs. The corpus
+contains 12659 unique words, including capitalization, and 10600 words
+ignoring capitalization. Some of these are not real words.
+
+We used the n-gram generation tools in the SRI Language Modeling Toolkit to build
+an n-gram language model on our music lyrics corpus. We then use the
+\texttt{fst\_from\_ngram} tool from
+the MIT Finite-State Transducer (FST) Toolkit to produce
+an FST from the n-gram model. This approach was also used to build
+models on the Brown Corpus for comparison.
+
+\subsection{Syllable Template Extraction}
+To extract a syllable template from input lyrics for generating
+new lyrics, we need three FST's: one FST to represent the lyric,
+one to map words to phonemes, and
+another to map phonemes to stressed/unstressed syllables.
+We use the MIT Finite-State Transducer (FST) Toolkit
+to transform each line of lyrics into an FST on the fly.
+
+To produce the second FST, we extracted
+the Brown Corpus dictionary from the CRYSTAL lexicon
+analysis tool used in Assignment 1, which was already
+provided in FST form. The closure operation for FST's
+is performed on the word-to-phoneme FST to allow for
+generation of arbitrarily many words.
+
+The last necessary FST was produced by hand. The rules for mapping
+phonemes to stressed/unstressed syllables
+are available in the CRYSTAL source code, and these
+rules were used to produce an FST.
+
+Algoritm[x] shows how we put these FST's together to generate a syllable template.
+To generate the template, the input text is split into individual lines, and
+each line is transformed into a word-word FST.
+This FST is then composed with the word-to-phoneme FST
+to retrieve the phoneme structure of the lyric in FST
+form. The resulting FST is then composed with the phonemes-to-syllables
+FST to produce the final syllable template. This template is then
+passed to the lyric generation section of our pipeline to produce
+new lyrics.
+
+\subsection{Lyric Generation}
+The lyrics generation portion of our pipeline takes as input
+a syllable template, and generates as output word sequences
+weighted by an n-gram language model. We need the inverse
+of both the word-to-phoneme and phonemes-to-syllable
+FST's from template extraction. We used the MIT Finite-State
+Transducer (FST) Toolkit to produce these inverse FST's.
+In addition, we need the FST produced using our n-gram language
+model built from our music lyrics corpus.
+
+Algorithm[x] shows how we combine the above FST's to generate
+new lyrics for a syllable template. The syllable template
+is split into lines, one line for each line in the original
+lyrics. Note that the syllable template is in FST form, as
+described in the previous section. This syllable template
+FST is composed with the inverse of the phonemes-to-syllables
+FST to produce all possible phoneme sequences associated
+with the syllable template. The resulting FST is then
+composed with the inverse of the phonemes-to-words FST
+to generate all possible word sequences for the given
+phoneme sequences.
+
+At this point, the FST currently contains
+old weights from the template extraction phase from when
+the original lyrics were mapped to phonemes. These weights
+must be removed to properly weight the FST by the n-gram
+weights for our music lyrics model. The cleaned word sequence FST
+is then composed with the n-gram FST to re-weight
+the FST according to the frequencies in our lyrics n-gram model.
+The last step can be performed on any FST generated from an n-gram
+model, for example a model generated using the Brown Corpus.
+
+\section{Results}
+\label{sec:results}
+
+\subsection{Experimental Setup}
+To test our lyrics generation techniques, we built a light-weight
+web application using the methods described in Section~\section{sec:methods}.
+Figure~\ref{fig:interface} shows the layout of our web interface.
+To use the lyrics generator interface, the user pastes lyrics tirectly
+into the textbox near the top of the screen, and chooses a corpus
+from the menu above the text box shown in Figure~\ref{}. To generate new lyrics, the user
+presses the ``Make new words!'' button. The text and chosen
+corpus are submitted to our back-end server for execution. When
+new lyrics are ready, they are presented on the screen as a
+list of drop-down menus alongside each line of the original song.
+The user can choose a line of lyrics from each drop-down menu to replace
+the corresponding line from the original lyrics.
+The final set of parody lyrics are printed at the very bottom of the screen
+alongside the original lyrics for comparison.
+
+We built FST's over several n-gram language models to test our lyrics generator:
+\begin{itemize}
+  \item the entire lyrics data set
+  \item the entire Brown Corpus
+  \item the science fiction text of the Brown Corpus
+  \item the mystery text of the Brown Corpus
+  \item the romance text of the Brown Corpus
+\end{itemize}
+
+\noindent{
+Our lyrics generation pipeline is executed on-the-fly using a series
+of piped operations from the Finite-State Transducer (FST) Toolkit on
+the back-end server. Our experiments were run locally on our personal
+computers.
+}
+
+\begin{figure}%[htbp]
+\centering
+%\epsfig{file=images_fixed/eps/architecture.eps,width=0.3\textwidth}
+\includegraphics[width=0.4\textwidth]{images/eps/lion_king2.eps}
+\caption{Website Interface for Lyrics Generator.}
+\label{fig:interface}
+\end{figure}
+
+\begin{figure}%[htbp]
+\centering
+%\epsfig{file=images_fixed/eps/architecture.eps,width=0.3\textwidth}
+\includegraphics[width=0.4\textwidth]{images/eps/choose_corpus.eps}
+\caption{Menu for Choosing a Corpus}
+\label{fig:corpus-menu}
+\end{figure}
+
+\begin{figure}%[htbp]
+\centering
+%\epsfig{file=images_fixed/eps/architecture.eps,width=0.3\textwidth}
+\includegraphics[width=0.2\textwidth]{images/eps/choose_lyrics_menu.eps}
+\caption{Menu for Choosing New Lyrics}
+\label{fig:lyrics-menu}
+\end{figure}
+
+
+\subsection{Generating Lyrics}
+
+
+\section{Improving Lyrics Generation with Latent Semantic Analysis}
+
+\section{Conclusions and Future Work}
+
+We presented the design and implementation of ScalaR, an information visualization
+system that dynamically performs resolution reduction to improve query execution
+performance of clusters running a distributed DBMS.
+%when expected query results from the back-end DBMS are too large to be
+%effectively drawn on the screen.
+ ScalaR uses aggregation, filtering and/or sampling operations to downsize query
+results
+%, providing the user with more or less detail
+as necessary to reduce
+completion time while still producing visualizations close in accuracy
+to the original result.
+%maximize usage of existing screen real estate.
+We presented
+results for an example application of ScalaR, visualizing satellite imagery data stored in
+SciDB.
+
+We plan to make several optimizations in ScalaR's design, starting with the
+2 following approaches.
+%The first is to push optimizations into the database
+%by improving query optimization, and by writing queries to utilize information
+%from the front-end about what is being drawn.
+The first is to use machine learning techniques over existing visualizations found
+on the web to learn how to choose appropriate visualization types for user query
+results automatically.
+Second, we plan to
+incorporate prefetching in the middle layer of our architecture, using feedback
+from the front-end about user interactions; for example, whether the user just
+zoomed in, or the direction the user is panning
+through the visualization.
+
+%% if specified like this the section will be ommitted in review mode
+%\acknowledgements{Blank}
+%
+\bibliographystyle{abbrv}
+%%use following if all content of bibtex file should be shown
+%\nocite{*}
+\bibliography{writeup}
+\end{document}
