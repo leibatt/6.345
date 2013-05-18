@@ -125,16 +125,15 @@ Weird Al Yankovic is a popular musician and comedian who is known for making
 hilarious parodies of American pop culture. His parodies are in part the inspiration for our ASR
 project. The core technical focus of our project is poetry generation.
 
-The Wired Al Yankovic lyrics generator starts with input text from the user. This
-can range from a few lines to full songs worth of text. The text is parsed and passed
-through a series of FSTs that go from words to phonemes to syllables, and then
-in reverse to generate new words for the lyrics. If words in the input text
-are not in our dictionary, the user can replace these words with direct
-syllable translations in the text.
+Our Wired Al Yankovic lyrics generator starts with plain text lyrics from the user. This
+can range from a few lines to full songs. The text is parsed and passed
+through a series of finite state transducers (FSTs) that translate words to phonemes, phonemes to syllabic stress patterns, and then
+in reverse to generate new words that fit the original meter. The user can use tokens that represent
+syllabic stresses directly in the case that the original song uses words that are not in the dictionary.
 
 The rest of this report is structured as follows. We discuss related lyrics generation
-and poetry generation projects, and briefly describe their methods. We present
-our music lyrics corpus, and the methods we used in building our lyrics generator.
+and poetry generation projects and briefly describe their methods. We present
+our music lyrics corpus and the methods we used in building our lyrics generator.
 We present the results of our generator by providing parody lyrics for
 several well-known songs using our music lyrics corpus
 and the Brown Corpus~\cite{browncorpus}.
@@ -216,7 +215,7 @@ The rest of this section is devoted to describing
 in detail each aspect of our lyrics generation pipeline.
 
 \subsection{Music Lyrics Data Set and N-Gram Language Model}
-The Guardian published a series of articles presenting 1000 songs "everyone must hear"~\cite{guardian}.
+The Guardian published a series of articles presenting 1000 songs ``everyone must hear''~\cite{guardian}.
 Each article in the series focused on a theme of music, such as love songs or political songs.
 They also provided a spreadsheet listing all 1000 of the songs they mentioned in their articles
 on their data blog\cite{guardian2}. This
