@@ -215,32 +215,32 @@ The rest of this section is devoted to describing
 in detail each aspect of our lyrics generation pipeline.
 
 \subsection{Music Lyrics Data Set and N-Gram Language Model}
-The Guardian published a series of articles presenting 1000 songs ``everyone must hear''~\cite{guardian}.
-Each article in the series focused on a theme of music, such as love songs or political songs.
-They also provided a spreadsheet listing all 1000 of the songs they mentioned in their articles
+The Guardian published a series of articles presenting 1,000 songs ``everyone must hear''~\cite{guardian}.
+Each article in the series focused on a theme, such as love and politics.
+They also provided a spreadsheet listing all 1,000 of the songs they mentioned in their articles
 on their data blog\cite{guardian2}. This
 data contained the theme assigned to the song in the articles,
 song title, artist name, year the song was released, and a Spotify~\cite{spotify} url.
 
 We used this data to gather song lyrics from the ChartLyrics database~\cite{chartlyrics},
 which resulted in a music lyrics corpus containing just over 800 songs. The corpus
-contains 12659 unique words, including capitalization, and 10600 words
-ignoring capitalization. Some of these are not real words.
+contains 12,659 unique words, including capitalization, and 10,600 words
+ignoring capitalization. Some of them are not real words.
 
 We used the n-gram generation tools in the SRI Language Modeling Toolkit to build
-an n-gram language model on our music lyrics corpus. We then use the
+an n-gram language model from our music lyrics corpus. We then used the
 \texttt{fst\_from\_ngram} tool from
-the MIT Finite-State Transducer (FST) Toolkit to produce
+the MIT Finite-State Transducer Toolkit to produce
 an FST from the n-gram model. This approach was also used to build
 models on the Brown Corpus for comparison.
 
 \subsection{Syllable Template Extraction}
-To extract a syllable template from input lyrics for generating
-new lyrics, we need three FSTs: one FST to represent the lyric,
-one to map words to phonemes, and
+To extract a syllabic stress template from input lyrics for generating
+new lyrics, we needed three FSTs: one FST to represent the verse (as a series of words),
+one to map the words to phonemes, and
 another to map phonemes to stressed/unstressed syllables.
 We use the MIT Finite-State Transducer (FST) Toolkit
-to transform each line of lyrics into an FST on the fly.
+to transform each line of lyrics into an FST.
 
 To produce the second FST, we extracted
 the Brown Corpus dictionary from the CRYSTAL lexicon
@@ -251,10 +251,9 @@ generation of arbitrarily many words.
 
 The last necessary FST was produced by hand. The rules for mapping
 phonemes to stressed/unstressed syllables
-are available in the CRYSTAL source code, and these
+were extracted from the CRYSTAL source code, and these
 rules were used to produce an FST.
 
-Algoritm[x] shows how we put these FSTs together to generate a syllable template.
 To generate the template, the input text is split into individual lines, and
 each line is transformed into a word-word FST.
 This FST is then composed with the word-to-phoneme FST
