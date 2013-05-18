@@ -174,8 +174,8 @@ Gnoetry~\cite{gnoetry} is an on-going project with a focus on human-computer col
 for poetry generation. Similar to our approach, Gnoetry builds a constrained n-gram
 language model on text supplied by the user to generate poetry. The user also
 has the ability to regenerate portions of the resulting poem. Gnoetry has also
-been used with music lyrics. \cite{ipoetry} Discusses older research on interactive
-poetry generation.
+been used with music lyrics. Roque discusses older research on interactive
+poetry generation~\cite{ipoetry}.
 
 Though our initial inspiration is not novel, our work on supplementing our n-gram
 models using Latent Semantic Analysis appears to be a new addition
@@ -194,10 +194,10 @@ area was limited.
 \end{figure}
 
 Our lyrics generation pipeline is as follows. First the user provides
-a set of music lyrics in text form as input to our system. The
+music lyrics as plain text as input to our system, using line breaks to separate verses. The
 lyrics are parsed line by line into their representative phonemes,
-and then reduced to their basic syllable pattern.
-Each syllable pattern is transformed back into all of its possible
+and then reduced to a syllablic stress pattern.
+Each stress pattern is transformed back into all of its possible
 phoneme sequences, which are then translated into all possible 
 word combinations with the phonemes. These words sequences are weighted with
 an n-gram model and ranked to return the most likely
@@ -205,8 +205,8 @@ candidate lyrics. The resulting lyrics should have very
 similar, if not the same syllable structure as the original
 input lyrics.
 
-Our entire pipeline is achieved using only a series of
-generated or composed FST's. Figure~\ref{fig:pipeline}
+The majority of our pipeline is implemented as a series of
+FST compositions. Figure~\ref{fig:pipeline}
 shows the organization of our pipeline.
 The rest of this section is devoted to describing
 in detail each aspect of our lyrics generation pipeline.
