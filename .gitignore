@@ -10,6 +10,8 @@
 *.inx
 *.toc
 *.out
+*.swp
+~*
 writeup.dvi
 writeup.ps
- writeup.pdf
+writeup.pdf
