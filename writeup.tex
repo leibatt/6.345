@@ -126,15 +126,13 @@ hilarious parodies of American pop culture. His parodies are in part the inspira
 project. The core technical focus of our project is poetry generation.
 
 The Wired Al Yankovic lyrics generator starts with input text from the user. This
-can range from a few lines to full songs worth of text. The text is parsed and passed
-through a series of FST's that go from words to phonemes to syllables, and then
-in reverse to generate new words for the lyrics. If words in the input text
-are not in our dictionary, the user can replace these words with direct
-syllable translations in the text.
+can range from a few lines to full songs worth of text. The text is split into verses and each verse is passed
+through a series of finite state transducers (FST's) that transform the words to phonemes, the phonemes to syllable stresses, and then
+in reverse to generate new words for the lyrics. In the case that our dictionary does not contain a desired word, the user can replace it with symbols that represent syllable stresses themselves.
 
 The rest of this report is structured as follows. We discuss related lyrics generation
-and poetry generation projects, and briefly describe their methods. We present
-our music lyrics corpus, and the methods we used in building our lyrics generator.
+and poetry generation projects and briefly describe their methods. We present
+our music lyrics corpus and the methods we used in building our lyrics generator.
 We present the results of our generator by providing parody lyrics for
 several well-known songs using our music lyrics corpus
 and the Brown Corpus~\ref{browncorpus}. We explain how we modified our lyrics generator
