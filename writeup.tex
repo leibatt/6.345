@@ -127,7 +127,7 @@ project. The core technical focus of our project is poetry generation.
 
 The Wired Al Yankovic lyrics generator starts with input text from the user. This
 can range from a few lines to full songs worth of text. The text is parsed and passed
-through a series of FST's that go from words to phonemes to syllables, and then
+through a series of FSTs that go from words to phonemes to syllables, and then
 in reverse to generate new words for the lyrics. If words in the input text
 are not in our dictionary, the user can replace these words with direct
 syllable translations in the text.
@@ -137,9 +137,11 @@ and poetry generation projects, and briefly describe their methods. We present
 our music lyrics corpus, and the methods we used in building our lyrics generator.
 We present the results of our generator by providing parody lyrics for
 several well-known songs using our music lyrics corpus
-and the Brown Corpus~\ref{browncorpus}. We explain how we modified our lyrics generator
-to incorporate keyword search over the corpus using LSA and compare with our original
-results. Lastly, we discuss the successes
+and the Brown Corpus~\cite{browncorpus}.
+%We explain how we modified our lyrics generator
+%to incorporate keyword search over the corpus using LSA and compare with our original
+%results.
+Lastly, we discuss the successes
 and challenges associated with building a lyrics generator and potential
 future work.
 
@@ -208,7 +210,7 @@ similar, if not the same syllable structure as the original
 input lyrics.
 
 Our entire pipeline is achieved using only a series of
-generated or composed FST's. Figure~\ref{fig:pipeline}
+generated or composed FSTs. Figure~\ref{fig:pipeline}
 shows the organization of our pipeline.
 The rest of this section is devoted to describing
 in detail each aspect of our lyrics generation pipeline.
@@ -235,7 +237,7 @@ models on the Brown Corpus for comparison.
 
 \subsection{Syllable Template Extraction}
 To extract a syllable template from input lyrics for generating
-new lyrics, we need three FST's: one FST to represent the lyric,
+new lyrics, we need three FSTs: one FST to represent the lyric,
 one to map words to phonemes, and
 another to map phonemes to stressed/unstressed syllables.
 We use the MIT Finite-State Transducer (FST) Toolkit
@@ -244,7 +246,7 @@ to transform each line of lyrics into an FST on the fly.
 To produce the second FST, we extracted
 the Brown Corpus dictionary from the CRYSTAL lexicon
 analysis tool used in Assignment 1, which was already
-provided in FST form. The closure operation for FST's
+provided in FST form. The closure operation for FSTs
 is performed on the word-to-phoneme FST to allow for
 generation of arbitrarily many words.
 
@@ -253,7 +255,7 @@ phonemes to stressed/unstressed syllables
 are available in the CRYSTAL source code, and these
 rules were used to produce an FST.
 
-Algoritm[x] shows how we put these FST's together to generate a syllable template.
+Algoritm[x] shows how we put these FSTs together to generate a syllable template.
 To generate the template, the input text is split into individual lines, and
 each line is transformed into a word-word FST.
 This FST is then composed with the word-to-phoneme FST
@@ -268,12 +270,12 @@ The lyrics generation portion of our pipeline takes as input
 a syllable template, and generates as output word sequences
 weighted by an n-gram language model. We need the inverse
 of both the word-to-phoneme and phonemes-to-syllable
-FST's from template extraction. We used the MIT Finite-State
-Transducer (FST) Toolkit to produce these inverse FST's.
+FSTs from template extraction. We used the MIT Finite-State
+Transducer (FST) Toolkit to produce these inverse FSTs.
 In addition, we need the FST produced using our n-gram language
 model built from our music lyrics corpus.
 
-Algorithm[x] shows how we combine the above FST's to generate
+Algorithm[x] shows how we combine the above FSTs to generate
 new lyrics for a syllable template. The syllable template
 is split into lines, one line for each line in the original
 lyrics. Note that the syllable template is in FST form, as
@@ -294,41 +296,6 @@ is then composed with the n-gram FST to re-weight
 the FST according to the frequencies in our lyrics n-gram model.
 The last step can be performed on any FST generated from an n-gram
 model, for example a model generated using the Brown Corpus.
-
-\section{Results}
-\label{sec:results}
-
-\subsection{Experimental Setup}
-To test our lyrics generation techniques, we built a light-weight
-web application using the methods described in Section~\section{sec:methods}.
-Figure~\ref{fig:interface} shows the layout of our web interface.
-To use the lyrics generator interface, the user pastes lyrics tirectly
-into the textbox near the top of the screen, and chooses a corpus
-from the menu above the text box shown in Figure~\ref{}. To generate new lyrics, the user
-presses the ``Make new words!'' button. The text and chosen
-corpus are submitted to our back-end server for execution. When
-new lyrics are ready, they are presented on the screen as a
-list of drop-down menus alongside each line of the original song.
-The user can choose a line of lyrics from each drop-down menu to replace
-the corresponding line from the original lyrics.
-The final set of parody lyrics are printed at the very bottom of the screen
-alongside the original lyrics for comparison.
-
-We built FST's over several n-gram language models to test our lyrics generator:
-\begin{itemize}
-  \item the entire lyrics data set
-  \item the entire Brown Corpus
-  \item the science fiction text of the Brown Corpus
-  \item the mystery text of the Brown Corpus
-  \item the romance text of the Brown Corpus
-\end{itemize}
-
-\noindent{
-Our lyrics generation pipeline is executed on-the-fly using a series
-of piped operations from the Finite-State Transducer (FST) Toolkit on
-the back-end server. Our experiments were run locally on our personal
-computers.
-}
 
 \begin{figure}%[htbp]
 \centering
@@ -355,7 +322,74 @@ computers.
 \end{figure}
 
 
+\section{Results}
+\label{sec:results}
+
+\subsection{Experimental Setup}
+To test our lyrics generation techniques, we built a light-weight
+web application using the methods described in Section~\section{sec:methods}.
+Figure~\ref{fig:interface} shows the layout of our web interface.
+To use the lyrics generator interface, the user pastes lyrics tirectly
+into the textbox near the top of the screen, and chooses a corpus
+from the menu above the text box shown in Figure~\ref{fig:interface}. To generate new lyrics, the user
+presses the ``Make new words!'' button. The text and chosen
+corpus are submitted to our back-end server for execution. When
+new lyrics are ready, they are presented on the screen as a
+list of drop-down menus alongside each line of the original song.
+The user can choose a line of lyrics from each drop-down menu to replace
+the corresponding line from the original lyrics.
+The final set of parody lyrics are printed at the very bottom of the screen
+alongside the original lyrics for comparison.
+
+We built FSTs over several n-gram language models to test our lyrics generator:
+\begin{itemize}
+  \item the entire lyrics data set
+  \item the entire Brown Corpus
+  \item the science fiction text of the Brown Corpus
+  \item the mystery text of the Brown Corpus
+  \item the romance text of the Brown Corpus
+\end{itemize}
+
+\noindent{
+Our lyrics generation pipeline is executed on-the-fly using a series
+of piped operations from the Finite-State Transducer (FST) Toolkit on
+the back-end server. Our experiments were run locally on our personal
+computers.
+}
+
 \subsection{Generating Lyrics}
+
+\subsection{Music Lyrics Data Set}
+\begin{figure}[t]
+\centering
+%\epsfig{file=images_fixed/eps/architecture.eps,width=0.3\textwidth}
+\includegraphics[width=0.4\textwidth]{images/png/yellow_submarine4.png}
+\caption{Results from producing lyrics from the music lyrics data set for ``Yellow Submarine'' by the Beatles}
+\label{fig:beatles}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+%\epsfig{file=images_fixed/eps/architecture.eps,width=0.3\textwidth}
+\includegraphics[width=0.4\textwidth]{images/png/tumh3.png}
+\caption{Results from producing lyrics from the music lyrics data set for ``Tearin' Up My Heart'' by
+N' Sync}
+\label{fig:beatles}
+\end{figure}
+
+\subsection{Brown Corpus}
+
+\begin{figure}[t]
+\centering
+%\epsfig{file=images_fixed/eps/architecture.eps,width=0.3\textwidth}
+\includegraphics[width=0.4\textwidth]{images/png/hotel_california5.png}
+\caption{Results from producing lyrics from the Brown Sci-Fi Corpus for ``Hotel California'' by the
+Eagles}
+\label{fig:beatles}
+\end{figure}
+
+
+\subsection{Performance}
 \begin{figure}[t]
 \centering
 %\epsfig{file=images_fixed/eps/architecture.eps,width=0.3\textwidth}
@@ -379,7 +413,7 @@ computers.
 \caption{Execution time per stage for lyrics of length 5, 8, 10, 13 and 15 syllables.}
 \label{fig:perf2}
 \end{figure}
-\section{Improving Lyrics Generation with Latent Semantic Analysis}
+%\section{Improving Lyrics Generation with Latent Semantic Analysis}
 
 \section{Conclusions and Future Work}
 
@@ -391,9 +425,10 @@ to generate new lyrics weighted by a given n-gram language model.
 We provided anectodal evidence in favor of the of ``Wired Al''
 system's ability to generate new song lyrics as well as results
 for testing the runtime performance of ``Wired Al'' for
-various lengths of word sequences. We also present an approach
-to extending our system to include keyword search on the underlying
-corpus using Latent Semantic Analysis.
+various lengths of word sequences.
+%We also present an approach
+%to extending our system to include keyword search on the underlying
+%corpus using Latent Semantic Analysis.
 
 We hope to grow and refine our music lyrics corpus and add additional
 data sets (such as a movie scripts corpus). In addition, we want
