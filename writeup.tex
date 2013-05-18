@@ -255,7 +255,7 @@ were extracted from the CRYSTAL source code, and these
 rules were used to produce an FST.
 
 To generate the template, the input text is split into individual lines, and
-each line is transformed into a word-word FST.
+each line is transformed into a word-to-word FST.
 This FST is then composed with the word-to-phoneme FST
 to retrieve the phoneme structure of the lyric in FST
 form. The resulting FST is then composed with the phonemes-to-syllables
@@ -456,16 +456,16 @@ about characters unrelated to the singer or listener.
 
 \subsection{Performance}
 Our final lyrics generation pipeline consists of 8 stages:
-\begin{itemize}
-  \item 1: fst from\_string - i gonna be a mighty king
-  \item 2: fst compose -t - pocket\_bcf-inverted-closure.fst -
-  \item 3: fst compose -t - phoneme\_to\_stress.fst -
-  \item 4: fst compose -t - stress\_to\_phoneme.fst -
-  \item 5 fst compose -t - pocket\_bcf-closure.fst -
-  \item 6 fst clear\_weights - -
-  \item 7 fst compose -t - lyrics-ngram.fst -
-  \item 8 fst nbest -s -o -n 30 - -
-\end{itemize}
+\begin{enumerate}
+  \item fst from\_string - i gonna be a mighty king
+  \item fst compose -t - pocket\_bcf-inverted-closure.fst -
+  \item fst compose -t - phoneme\_to\_stress.fst -
+  \item fst compose -t - stress\_to\_phoneme.fst -
+  \item fst compose -t - pocket\_bcf-closure.fst -
+  \item fst clear\_weights - -
+  \item fst compose -t - lyrics-ngram.fst -
+  \item fst nbest -s -o -n 30 - -
+\end{enumerate}
 
 The runtime performance of the ``Wired Al'' lyrics generator for an indidual
 line of lyrics is presented
