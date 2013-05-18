@@ -1,6 +1,6 @@
 \newcommand{\tinytt}{\tt \scriptsize}
 % $Id: template.tex 11 2007-04-03 22:25:53Z jpeltier $
-
+\RequirePackage{ifpdf}
 \documentclass{vgtc}                          % final (conference style)
 %\documentclass[review]{vgtc}                 % review
 %\documentclass[widereview]{vgtc}             % wide-spaced review
@@ -30,7 +30,7 @@
 \usepackage{amsmath}
 \usepackage{mathptmx}
 
-\usepackage{graphicx}
+\usepackage{graphicx,color}
 \usepackage{times}
 \usepackage{url}
 \usepackage{listings}
@@ -190,7 +190,7 @@ area was limited.
 \begin{figure}%[htbp]
 \centering
 %\epsfig{file=images_fixed/eps/architecture.eps,width=0.3\textwidth}
-\includegraphics[width=0.3\textwidth]{images/ps/pipeline.ps}
+\includegraphics[width=0.3\textwidth]{images/pdf/pipeline.pdf}
 \caption{Lyrics Generation Pipeline}
 \label{fig:pipeline}
 \end{figure}
@@ -333,7 +333,7 @@ computers.
 \begin{figure}%[htbp]
 \centering
 %\epsfig{file=images_fixed/eps/architecture.eps,width=0.3\textwidth}
-\includegraphics[width=0.4\textwidth]{images/eps/lion_king2.eps}
+\includegraphics[width=0.4\textwidth]{images/png/lion_king2.png}
 \caption{Website Interface for Lyrics Generator.}
 \label{fig:interface}
 \end{figure}
@@ -341,7 +341,7 @@ computers.
 \begin{figure}%[htbp]
 \centering
 %\epsfig{file=images_fixed/eps/architecture.eps,width=0.3\textwidth}
-\includegraphics[width=0.4\textwidth]{images/eps/choose_corpus.eps}
+\includegraphics[width=0.4\textwidth]{images/png/choose_corpus.png}
 \caption{Menu for Choosing a Corpus}
 \label{fig:corpus-menu}
 \end{figure}
@@ -349,15 +349,36 @@ computers.
 \begin{figure}%[htbp]
 \centering
 %\epsfig{file=images_fixed/eps/architecture.eps,width=0.3\textwidth}
-\includegraphics[width=0.2\textwidth]{images/eps/choose_lyrics_menu.eps}
+\includegraphics[width=0.2\textwidth]{images/png/choose_lyrics_menu.png}
 \caption{Menu for Choosing New Lyrics}
 \label{fig:lyrics-menu}
 \end{figure}
 
 
 \subsection{Generating Lyrics}
+\begin{figure}[t]
+\centering
+%\epsfig{file=images_fixed/eps/architecture.eps,width=0.3\textwidth}
+\includegraphics[width=0.4\textwidth]{images/pdf/transitions_per_stage.pdf}
+\caption{Approximate number of state transitions per stage for lyrics of length 5, 8, 10 and 15 syllables.}
+\label{fig:perf2}
+\end{figure}
 
+\begin{figure}[t]
+\centering
+%\epsfig{file=images_fixed/eps/architecture.eps,width=0.3\textwidth}
+\includegraphics[width=0.4\textwidth]{images/pdf/runtime_by_syllables.pdf}
+\caption{Total execution time given number of syllables in a single lyric.}
+\label{fig:perf2}
+\end{figure}
 
+\begin{figure}[t]
+\centering
+%\epsfig{file=images_fixed/eps/architecture.eps,width=0.3\textwidth}
+\includegraphics[width=0.4\textwidth]{images/pdf/runtime_per_stage.pdf}
+\caption{Execution time per stage for lyrics of length 5, 8, 10, 13 and 15 syllables.}
+\label{fig:perf2}
+\end{figure}
 \section{Improving Lyrics Generation with Latent Semantic Analysis}
 
 \section{Conclusions and Future Work}
