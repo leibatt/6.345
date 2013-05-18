@@ -362,35 +362,24 @@ computers.
 
 \section{Conclusions and Future Work}
 
-We presented the design and implementation of ScalaR, an information visualization
-system that dynamically performs resolution reduction to improve query execution
-performance of clusters running a distributed DBMS.
-%when expected query results from the back-end DBMS are too large to be
-%effectively drawn on the screen.
- ScalaR uses aggregation, filtering and/or sampling operations to downsize query
-results
-%, providing the user with more or less detail
-as necessary to reduce
-completion time while still producing visualizations close in accuracy
-to the original result.
-%maximize usage of existing screen real estate.
-We presented
-results for an example application of ScalaR, visualizing satellite imagery data stored in
-SciDB.
+We presented the design and implementation of ``Wired Al Yankovic'',
+an n-gram-based automatic parody lyrics generator. ``Wired Al''
+uses a series of FST compositions to transform existing
+song lyrics into syllable patterns, and uses these patterns
+to generate new lyrics weighted by a given n-gram language model.
+We provided anectodal evidence in favor of the of ``Wired Al''
+system's ability to generate new song lyrics as well as results
+for testing the runtime performance of ``Wired Al'' for
+various lengths of word sequences. We also present an approach
+to extending our system to include keyword search on the underlying
+corpus using Latent Semantic Analysis.
 
-We plan to make several optimizations in ScalaR's design, starting with the
-2 following approaches.
-%The first is to push optimizations into the database
-%by improving query optimization, and by writing queries to utilize information
-%from the front-end about what is being drawn.
-The first is to use machine learning techniques over existing visualizations found
-on the web to learn how to choose appropriate visualization types for user query
-results automatically.
-Second, we plan to
-incorporate prefetching in the middle layer of our architecture, using feedback
-from the front-end about user interactions; for example, whether the user just
-zoomed in, or the direction the user is panning
-through the visualization.
+We hope to grow and refine our music lyrics corpus and add additional
+data sets (such as a movie scripts corpus). In addition, we want
+to extend the system such that multiple users can interact with
+``Wired Al'' simultaneously, and we want to finish a full deployment
+of our website, so others can enjoy and learn from our lyrics generation
+system.
 
 %% if specified like this the section will be ommitted in review mode
 %\acknowledgements{Blank}
